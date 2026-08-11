@@ -1,5 +1,18 @@
 <?php
 include("./config/config.php");
+
+if(isset($_POST['myUpdateBTN'])){
+    $name = $_POST['nameField'];
+    $message = $_POST['messageField'];
+
+    $update_query = "UPDATE queries SET query_name = '$name', query_message = '$message' WHERE query_id = $_GET[id]";
+    $execute = mysqli_query($connection, $update_query);
+
+    echo "<script>
+        location.assign('read.php');
+    </script>";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,14 +24,15 @@ include("./config/config.php");
 <body>
 
     <?php
-    $select_query = "SELECT * FROM queries WHERE query_id = $_GET[update]";
-    $execute = mysqli_query($conn, $select_query);
-    $display = mysqli_fetch_array($execute);
+    $select_query = "SELECT * FROM queries WHERE query_id = $_GET[id]";
+    $execute = mysqli_query($connection, $select_query);
+    $singleQuery = mysqli_fetch_array($execute); 
     ?>
     <form method="POST">
-        <input type="text" name="nameField" value="<?php echo $display['query_name']?>">
+        <input type="text" name="nameField" value="<?php echo $singleQuery['query_name']?>">
 
-        <input type="text" name="messageField" value="<?php echo $display['query_message']?>">
+        <!-- <textarea name="messageField"></textarea> -->
+         <input type="text" name="messageField" value="<?php echo $singleQuery['query_message']?>">
 
         <button name="myUpdateBTN">SUBMIT</button>
     </form>

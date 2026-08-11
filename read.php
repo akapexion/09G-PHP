@@ -1,5 +1,17 @@
 <?php
 include("./config/config.php");
+
+if(isset($_GET['id'])){
+    $delete_query = "DELETE FROM queries WHERE query_id = $_GET[id]";
+    $execute = mysqli_query($connection, $delete_query);
+
+    echo "<script>
+        location.assign('read.php');
+    </script>";
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,8 +43,8 @@ include("./config/config.php");
             <td><?php echo $display['query_name']; ?></td>
             <td><?php  echo $display['query_message']  ?></td>
             <td>
-                <a href="update.php?update=<?php echo $display['query_id']?>">Edit</a>
-                <a href="">Delete</a>
+                <a href="update.php?id=<?php echo $display['query_id']?>">Edit</a>
+                <a href="?id=<?php echo $display['query_id']?>">Delete</a>
             </td>
         </tr>
         <?php
